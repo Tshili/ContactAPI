@@ -4,7 +4,7 @@
 package com.ressources.contacts.dto;
 
 import java.util.Set;
-import com.ressources.contacts.entities.Skill;
+
 
 /**
  * @author Bernard MPOY
@@ -19,7 +19,7 @@ public class ContactDto {
 	private String address;
 	private String email;
 	private String mobilePhoneNumber;
-	Set<Skill> skills;
+	Set<SkillDto> skills;
 
 	public ContactDto() {
 
@@ -28,14 +28,14 @@ public class ContactDto {
 	/**
 	 * @return the skills
 	 */
-	public Set<Skill> getSkills() {
+	public Set<SkillDto> getSkills() {
 		return skills;
 	}
 
 	/**
 	 * @param skills the skills to set
 	 */
-	public void setSkills(Set<Skill> skills) {
+	public void setSkills(Set<SkillDto> skills) {
 		this.skills = skills;
 	}
 

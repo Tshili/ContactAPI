@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ressources.contacts.dto.ContactDto;
+import com.ressources.contacts.dto.SkillDto;
 import com.ressources.contacts.entities.Contact;
 import com.ressources.contacts.entities.Skill;
 import com.ressources.contacts.exceptions.ResourceNotFoundException;
@@ -34,7 +35,7 @@ public class ContactServiceImpl implements ContactService {
 
 	@Override
 	public Contact createContact(String userId, ContactDto contactDto) {
-		Set<Skill> skillSet = null;
+
 		Contact contact = new Contact();
 		contact.setIdUser(userId);
 		contact.setFullName(contactDto.getFullName());
@@ -43,11 +44,15 @@ public class ContactServiceImpl implements ContactService {
 		contact.setFirstName(contactDto.getFirstName());
 		contact.setLastName(contactDto.getLastName());
 		contact.setMobilePhoneNumber(contactDto.getMobilePhoneNumber());
-		skillSet = contactDto.getSkills();
 
-		for (Skill skill : contactDto.getSkills()) {
-			skill.setIdUser(userId);
-			skillSet.add(skill);
+		Set<Skill> skillSet = new HashSet<Skill>();
+		if (!contactDto.getSkills().isEmpty()) {
+
+			for (SkillDto skill : contactDto.getSkills()) {
+
+				skillSet.add(new Skill(userId, skill.getName(), skill.getLevel()));
+			}
+
 		}
 
 		contact.setSkills(skillSet);
@@ -65,7 +70,7 @@ public class ContactServiceImpl implements ContactService {
 	}
 
 	@Override
-	public Contact getContactById(String userId, String contactId){
+	public Contact getContactById(String userId, String contactId) {
 		Contact contact = contactRepository.findByIdUserAndIdContact(userId, contactId)
 				.orElseThrow(() -> new ResourceNotFoundException("Not found Contact with id = " + contactId));
 
@@ -94,9 +99,13 @@ public class ContactServiceImpl implements ContactService {
 					skillRepository.deleteByIdSkill(skill.getIdSkill());
 				}
 
-				for (Skill skill : contactDto.getSkills()) {
-					skill.setIdUser(userId);
-					skillSet.add(skill);
+				if (!contactDto.getSkills().isEmpty()) {
+
+					for (SkillDto skill : contactDto.getSkills()) {
+
+						skillSet.add(new Skill(userId, skill.getName(), skill.getLevel()));
+					}
+
 				}
 
 			}
