@@ -86,7 +86,7 @@ public class ContactController {
 		return new ResponseEntity<>(contact, HttpStatus.OK);
 	}
 
-	// Delete contact
+	// Delete  contact
 	@Operation(summary = "delete a contact", security = @SecurityRequirement(name = "bearerAuth"))
 	@DeleteMapping("/{contactId}")
 	public ResponseEntity<HttpStatus> deleteContact(HttpServletRequest request,
